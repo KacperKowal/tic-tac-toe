@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+.container {
+    height: 300px;
+    width: 300px;
+}
+
+.container div {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

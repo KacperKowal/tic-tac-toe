@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div data-id="0"></div>
+        <div data-id="1"></div>
+        <div data-id="2"></div>
+        <div data-id="3"></div>
+        <div data-id="4"></div>
+        <div data-id="5"></div>
+        <div data-id="6"></div>
+        <div data-id="7"></div>
+        <div data-id="8"></div>
+    </div>
+    <div class="winner"></div>
+    <button>reset</button>
+    <script>
+        const winnings = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ]
+        const winner = document.querySelector('.winner');
+        const divs = [...document.querySelectorAll('[data-id]')];
+        let win = false;
+        const reset = () => {
+            divs.forEach((item) => item.textContent = '')
+            win = false;
+            winner.textContent = '';
+        }
+        const button = document.querySelector('button')
+        button.addEventListener('click', reset)
+        let turn = 'x'
+        const checkWinnings = (turn) => {
+            for (let i = 0; i < winnings.length; i++) {
+                const [a, b, c] = winnings[i];
+                if (divs[a].textContent === turn && divs[b].textContent === turn && divs[c].textContent === turn) {
+                    winner.textContent = `zwycięzca jest ${turn}`;
+                    win = true;
+                    return true; // Return true if x has won
+                }
+            }
+            return false; // Return false if x has not won
+        };
+        const computerCheck = () => {
+            const div = divs.find((div) => div.textContent === '');
+            div.textContent = turn;
+            if (!checkWinnings(turn)) { // Only change the turn if x has not won
+                turn = 'x';
+            }
+        };
+
+        const check = (event) => {
+            if (win) return; // Return early if x has already won
+            const clickedDiv = event.target;
+            clickedDiv.textContent = turn;
+            if (!checkWinnings(turn)) { // Only change the turn if x has not won
+                turn = 'o';
+                computerCheck();
+            }
+        };
+
+        divs.forEach((item) => item.addEventListener('click', check))
+    </script>
+</body>
+
+</html>
